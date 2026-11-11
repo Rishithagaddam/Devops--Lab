@@ -12,7 +12,10 @@ jobs:
             - pip-deps-v1-
       - run:
           name: Install dependencies
-          command: python -m pip install -r requirements.txt pytest
+          command: python -m pip install -r requirements.txt
+      - run:
+          name: Install pytest
+          command: python -m pip install pytest
       - save_cache:
           key: pip-deps-v1-{{ checksum "requirements.txt" }}
           paths:
