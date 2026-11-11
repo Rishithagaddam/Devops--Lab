@@ -1,0 +1,27 @@
+version: 2.1
+
+jobs:
+  build-test:
+    docker:
+      - image: cimg/python:3.11
+    steps:
+      - checkout
+      - restore_cache:
+          keys:
+            - pip-deps-v1-{{ checksum "requirements.txt" }}
+            - pip-deps-v1-
+      - run:
+          name: Install dependencies
+          command: python -m pip install -r requirements.txt pytest
+      - save_cache:
+          key: pip-deps-v1-{{ checksum "requirements.txt" }}
+          paths:
+            - ~/.cache/pip
+      - run:
+          name: Run tests
+          command: python -m pytest
+
+workflows:
+  build-test:
+    jobs:
+      - build-test
