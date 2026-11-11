@@ -1,21 +1,23 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: studentmarkservice-deployment
-  namespace: studentmarkservice-ns
+  name: flask-app
 spec:
   replicas: 1
   selector:
     matchLabels:
-      app: studentmarkservice
+      app: flask-app
   template:
     metadata:
       labels:
-        app: studentmarkservice
+        app: flask-app
     spec:
       containers:
-        - name: studentmarkservice-container
-          image: ssatyab/studentmarkservice-image:latest
-          imagePullPolicy: IfNotPresent
-          ports:
-            - containerPort: 8100
+      - name: flask-app
+        image: flask-app:1.0
+        imagePullPolicy: IfNotPresent
+        ports:
+        - containerPort: 5000
+        envFrom:
+        - configMapRef:
+            name: app-config
